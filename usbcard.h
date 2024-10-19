@@ -13,9 +13,13 @@ class USBcard: public QThread
 public:
     USBcard();
     USB2070_PARA_INIT myADParameter;
+    void findDevice();
+    HANDLE hDevice ; //设备句柄
+    CARD_INFO  ccardInfo;			//板卡信息
 signals:
 
     void sendMsg2Main(const QString&);
+    void sendCardInfor(const CARD_INFO&);
 
 public slots:
     void ADinit();
