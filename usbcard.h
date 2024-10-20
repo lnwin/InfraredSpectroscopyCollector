@@ -17,6 +17,7 @@ public:
     HANDLE hDevice ; //设备句柄
     CARD_INFO  ccardInfo;			//板卡信息
     bool needRead=true;
+    BOOL readUSB(PUSHORT pBuf, int bufSiz);
 signals:
 
     void sendMsg2Main(const QString&);
