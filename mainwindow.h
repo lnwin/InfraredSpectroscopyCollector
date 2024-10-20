@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QMainWindow>
 #include <usbcard.h>
+#include <QDateTime>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -28,5 +29,12 @@ public slots:
 private slots:
     void on_findDevice_clicked();
     void on_InitDevice_clicked();
+    void on_startread_clicked();
+
+    void on_stopread_clicked();
+
+signals:
+    void startRead();
+    void stopRead();
 };
 #endif // MAINWINDOW_H

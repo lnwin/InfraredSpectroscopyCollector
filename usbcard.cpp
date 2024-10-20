@@ -39,7 +39,7 @@ void USBcard::ADinit()
     myADParameter.lADRange=0;//，0对应-5V~+5V量程，1对应-10V~10V量程。
     myADParameter.TriggerLevel=0;//触发电平设置，采样12位DA，取值0～4095，0对应触发电平-5V，4095对应触发电平5V。
    //－通道使能，lEnCh[0]~ lEnCh[79]分别对应CH1~CH80使能，1表示该通道使能，0表示该通道非使能。
-    for(int i=0;i<24;i++)
+    for(int i=0;i<8;i++)
     {
      myADParameter.lEnCh[i] = TRUE;
     }
@@ -53,5 +53,27 @@ void USBcard::ADinit()
     {
          emit sendMsg2Main("init device success !");
     }
+
+};
+void USBcard::readAD()
+{
+
+    while(needRead)
+    {
+
+        qDebug()<<"is reading";
+
+        QThread::sleep(1); // 模拟延时
+
+    }
+
+     qDebug()<<" read stoped";
+
+
+};
+void USBcard::stopRead()
+{
+
+    needRead=false;
 
 };

@@ -5,7 +5,7 @@
 #include <QThread>
 #include <usb2070.h>
 #include <QMetaType>
-
+#include <QDebug>
 
 class USBcard: public QThread
 {
@@ -16,6 +16,7 @@ public:
     void findDevice();
     HANDLE hDevice ; //设备句柄
     CARD_INFO  ccardInfo;			//板卡信息
+    bool needRead=true;
 signals:
 
     void sendMsg2Main(const QString&);
@@ -23,6 +24,8 @@ signals:
 
 public slots:
     void ADinit();
+    void readAD();
+    void stopRead();
 };
 
 #endif // USBCARD_H

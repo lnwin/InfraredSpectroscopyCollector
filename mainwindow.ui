@@ -17,8 +17,8 @@
    <widget class="QPushButton" name="findDevice">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>450</y>
+      <x>20</x>
+      <y>320</y>
       <width>80</width>
       <height>51</height>
      </rect>
@@ -30,8 +30,8 @@
    <widget class="QPushButton" name="InitDevice">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>450</y>
+      <x>120</x>
+      <y>320</y>
       <width>80</width>
       <height>51</height>
      </rect>
@@ -48,6 +48,32 @@
       <width>461</width>
       <height>121</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="startread">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>390</y>
+      <width>80</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>StartRead</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="stopread">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>390</y>
+      <width>80</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>StopRead</string>
     </property>
    </widget>
   </widget>
