@@ -11,8 +11,24 @@ MainWindow::MainWindow(QWidget *parent)
     mymyusbcardThread=new  QThread ();
     myusbcard->moveToThread(mymyusbcardThread);
     mymyusbcardThread->start();
+
+    mydataChart=new dataChart(ui);
+    mydataChartThread=new QThread ();
+    mydataChart->moveToThread(mydataChartThread);
+    mydataChartThread->start();
+    mydataProcessing=new dataProcessing();
+    mydataProcessingThread=new QThread();
+    mydataProcessing->moveToThread(mydataProcessingThread);
+    mydataProcessingThread->start();
+    mydataSaving = new dataSaving();
+    mydataSavingThread=new QThread();
+    mydataSaving->moveToThread(mydataSavingThread);
+    mydataSavingThread->start();
+
     connect(myusbcard,&USBcard::sendMsg2Main,this,&MainWindow::receiveMSG);
     connect(myusbcard,&USBcard::sendCardInfor,this,&MainWindow::receiveCardInfor);
+    connect(myusbcard,&USBcard::sendBuffer2P,mydataProcessing,&dataProcessing::receiveBuff);
+
 
     connect(this,&MainWindow::startRead ,myusbcard,&USBcard::readAD);
     connect(this,&MainWindow::stopRead ,myusbcard,&USBcard::stopRead);
@@ -63,5 +79,11 @@ void MainWindow::on_startread_clicked()
 void MainWindow::on_stopread_clicked()
 {
     myusbcard->needRead=false;
+}
+
+
+void MainWindow::on_test_clicked()
+{
+    mydataChart-> receiveConcentration2(220);
 }
 

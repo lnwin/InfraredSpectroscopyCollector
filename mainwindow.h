@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <usbcard.h>
 #include <QDateTime>
+#include <datachart.h>
+#include <dataprocessing.h>
+#include <datasaving.h>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -20,6 +23,12 @@ public:
 
     USBcard *myusbcard;
     QThread *mymyusbcardThread;
+    dataChart *mydataChart;
+    QThread *mydataChartThread;
+    dataProcessing *mydataProcessing;
+    QThread *mydataProcessingThread;
+    dataSaving*mydataSaving;
+    QThread *mydataSavingThread;
 
 private:
     Ui::MainWindow *ui;
@@ -30,8 +39,9 @@ private slots:
     void on_findDevice_clicked();
     void on_InitDevice_clicked();
     void on_startread_clicked();
-
     void on_stopread_clicked();
+
+    void on_test_clicked();
 
 signals:
     void startRead();

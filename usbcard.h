@@ -18,11 +18,12 @@ public:
     CARD_INFO  ccardInfo;			//板卡信息
     bool needRead=true;
     BOOL readUSB(PUSHORT pBuf, int bufSiz);
+    bool checkNeed();
 signals:
 
     void sendMsg2Main(const QString&);
     void sendCardInfor(const CARD_INFO&);
-
+    void sendBuffer2P(const PUSHORT);
 public slots:
     void ADinit();
     void readAD();
