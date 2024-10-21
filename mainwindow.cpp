@@ -84,6 +84,40 @@ void MainWindow::on_stopread_clicked()
 
 void MainWindow::on_test_clicked()
 {
-    mydataChart-> receiveConcentration2(220);
+    PUSHORT sssd;
+    sssd=new USHORT[10000];
+
+    for (int i = 0; i < 10000; ++i) {
+        // 计算正弦波值
+        double sineValue = 300 * (1 + std::sin(2 * M_PI * 1 * i / 10000)) / 2;
+
+        // 将值转换为 unsigned short，并防止溢出
+        sssd[i] = static_cast<unsigned short>(std::min(std::max(sineValue, 0.0), static_cast<double>(std::numeric_limits<unsigned short>::max())));
+    }
+
+
+    mydataChart-> receiveConcentration2(sssd,220);
+}
+
+
+void MainWindow::on_Mvalue_textChanged(const QString &arg1)
+{
+    mydataProcessing->myM=arg1.toFloat();
+}
+
+
+void MainWindow::on_Nvalue_textChanged(const QString &arg1)
+{
+    mydataProcessing->myN=arg1.toFloat();
+}
+
+
+void MainWindow::on_pushButton_clicked()
+{
+
+    QString filePath=QFileDialog::getExistingDirectory();
+    ui->savePath->setText(filePath);
+    mydataSaving->mySavePath=filePath;
+
 }
 

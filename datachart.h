@@ -15,8 +15,8 @@ public:
     static QVector<double> xData;
     static QVector<double> yData;
 public slots:
-     void receiveConcentration2(const float ConCTr);
-    void showDataAtMouse(QMouseEvent *event);
+     void receiveConcentration2(const PUSHORT,const float ConCTr);
+     void showDataAtMouse(QMouseEvent *event);
 };
 
 #endif // DATACHART_H

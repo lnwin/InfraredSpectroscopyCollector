@@ -43,6 +43,12 @@ private slots:
 
     void on_test_clicked();
 
+    void on_Mvalue_textChanged(const QString &arg1);
+
+    void on_Nvalue_textChanged(const QString &arg1);
+
+    void on_pushButton_clicked();
+
 signals:
     void startRead();
     void stopRead();

@@ -5,7 +5,7 @@ QVector<double> dataChart::yData;
 // 在初始化时定义全局的追踪器和文本项
 QCPItemTracer *tracer = nullptr;
 QCPItemText *tracerText = nullptr;
-void setChineseFont(QCustomPlot *customPlot);
+
 dataChart::dataChart(Ui::MainWindow *myui)
 {
     myUI=myui;
@@ -16,8 +16,7 @@ dataChart::dataChart(Ui::MainWindow *myui)
     // 设置时间和浓度数据轴的标签
     myUI->chartView->xAxis->setLabel("数据时间");
     myUI->chartView->yAxis->setLabel("浓度 (mg/m3)");
-    // 设置中文字体
-    setChineseFont(myUI->chartView);
+
 
     // 获取当前时间戳作为起始时间
     double currentTime = QDateTime::currentDateTime().toSecsSinceEpoch();
@@ -28,7 +27,7 @@ dataChart::dataChart(Ui::MainWindow *myui)
 
     // 设置时间刻度格式
     QSharedPointer<QCPAxisTickerDateTime> dateTimeTicker(new QCPAxisTickerDateTime);
-    dateTimeTicker->setDateTimeFormat("yyyy-HH:mm:ss"); // 设置为"yyyy-HH:mm:ss"格式
+    dateTimeTicker->setDateTimeFormat("yyyy HH:mm:ss"); // 设置为"yyyy-HH:mm:ss"格式
     myUI->chartView->xAxis->setTicker(dateTimeTicker);
 
     // 初始化追踪器和文本
@@ -48,14 +47,15 @@ dataChart::dataChart(Ui::MainWindow *myui)
     tracerText->setPadding(QMargins(5, 5, 5, 5));
 
     // 绑定鼠标移动事件
-    connect(myUI->chartView, &QCustomPlot::mouseMove, [=](QMouseEvent *event) {
-        showDataAtMouse(event);
-    });
-
-
+    connect(myUI->chartView, &QCustomPlot::mouseMove, [=](QMouseEvent *event) {showDataAtMouse(event);});
+//=====================================================================================
+     myUI->originView->addGraph();
+     myUI->originView->graph(0)->setPen(QPen(Qt::blue));
+     myUI->originView->xAxis->setLabel("数据个数");
+     myUI->originView->yAxis->setLabel("数据AD");
 }
 
-void dataChart::receiveConcentration2(const float ConCTr)
+void dataChart::receiveConcentration2(const PUSHORT myoriginBuff,const float ConCTr)
 {
     // 获取当前时间的时间戳（单位为秒）
     double currentTime = QDateTime::currentDateTime().toSecsSinceEpoch();
@@ -75,11 +75,40 @@ void dataChart::receiveConcentration2(const float ConCTr)
     myUI->chartView->xAxis->setRange(currentTime - timeRange, currentTime);
     // 使用 QCPAxisTickerDateTime 格式化时间标签
     QSharedPointer<QCPAxisTickerDateTime> dateTimeTicker(new QCPAxisTickerDateTime);
-    dateTimeTicker->setDateTimeFormat("yyyy-HH:mm:ss");
+    dateTimeTicker->setDateTimeFormat("yyyy HH:mm:ss");
     myUI->chartView->xAxis->setTicker(dateTimeTicker);
 
     // 重新绘制图表
     myUI->chartView->replot();
+
+ //====================================================
+
+     myUI->originView->graph(0)->data()->clear();
+
+    // 构建 x 轴和 y 轴的数据
+    QVector<double> xData(10000), yData(10000);
+    for (int i = 0; i < 10000; ++i) {
+        xData[i] = i;                 // x轴为数据索引
+        yData[i] = myoriginBuff[i];   // y轴为 myoriginBuff 的值
+    }
+
+    // 设置数据到图表
+    myUI->originView->graph(0)->setData(xData, yData);
+
+    // 设置 x 轴的范围（从 0 到 dataSize - 1）
+    myUI->originView->xAxis->setRange(0, 9999);
+    myUI->originView->xAxis->setLabel("数据索引");
+
+    // 设置 y 轴的范围（根据 myoriginBuff 的最小和最大值）
+    double minY = *std::min_element(yData.begin(), yData.end());
+    double maxY = *std::max_element(yData.begin(), yData.end());
+    myUI->originView->yAxis->setRange(minY, maxY);
+    myUI->originView->yAxis->setLabel("myoriginBuff");
+
+    // 重新绘制图表
+    myUI->originView->replot();
+
+
 };
 void dataChart::showDataAtMouse(QMouseEvent *event)
 {
@@ -116,7 +145,7 @@ void dataChart::showDataAtMouse(QMouseEvent *event)
         tracerText->position->setCoords(closestKey, closestValue);
 
         // 设置文本内容
-        QString timeStr = QDateTime::fromSecsSinceEpoch(static_cast<qint64>(closestKey)).toString("yyyy-HH:mm:ss");
+        QString timeStr = QDateTime::fromSecsSinceEpoch(static_cast<qint64>(closestKey)).toString("yyyy HH:mm:ss");
         QString valueStr = QString::number(closestValue, 'f', 2);
         tracerText->setText(QString("%1\n data: %2").arg(timeStr).arg(valueStr));
         tracerText->setVisible(true);
@@ -148,10 +177,4 @@ void dataChart::showDataAtMouse(QMouseEvent *event)
     // 更新绘图
     myUI->chartView->replot();
 }
-void setChineseFont(QCustomPlot *customPlot)
-{
-    QFont chineseFont("Microsoft YaHei", 10);  // 使用微软雅黑字体
-    customPlot->setFont(chineseFont);          // 设置整体字体
-    customPlot->xAxis->setLabelFont(chineseFont);  // 设置x轴标签字体
-    customPlot->yAxis->setLabelFont(chineseFont);  // 设置y轴标签字体
-}
+
