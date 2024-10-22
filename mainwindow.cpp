@@ -30,6 +30,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(myusbcard,&USBcard::sendBuffer2P,mydataProcessing,&dataProcessing::receiveBuff);
 
 
+    connect(mydataProcessing,&dataProcessing::sendConcentration2Chart ,mydataChart,&dataChart::receiveConcentration2);
+    connect(mydataProcessing,&dataProcessing::sendConcentration2Chart ,mydataSaving,&dataSaving::getData2Save);
+
+
+
     connect(this,&MainWindow::startRead ,myusbcard,&USBcard::readAD);
     connect(this,&MainWindow::stopRead ,myusbcard,&USBcard::stopRead);
 
@@ -95,8 +100,9 @@ void MainWindow::on_test_clicked()
         sssd[i] = static_cast<unsigned short>(std::min(std::max(sineValue, 0.0), static_cast<double>(std::numeric_limits<unsigned short>::max())));
     }
 
+    myusbcard->sendBuffer2P(sssd);
 
-    mydataChart-> receiveConcentration2(sssd,220);
+    //mydataChart-> receiveConcentration2(sssd,220);
 }
 
 

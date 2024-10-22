@@ -29,36 +29,43 @@ void dataSaving::getData2Save(const PUSHORT myBUF,const float ConCTr)
     QPair<QList<float>, float> newPair(floatList, ConCTr); // 创建新键值对
     myDataMap.insert(CCT, newPair);
 
-    if(myDataMap.size()>=300)//1Hz  5分钟存储一次
+    qDebug()<<"getData2Save";
+
+    if(myDataMap.size()>=60)//1Hz  5分钟存储一次
     {
-        saveMydata();
+        saveMydata(myDataMap);
         read2Save=true;
         myDataMap.clear();
     }
 
 
 };
-void dataSaving::saveMydata()
+void dataSaving::saveMydata(const QMap<QDateTime, QPair<QList<float>, float>>&md)
 {
-    QDir dir0(mySavePath+"/originData");
-    QDir dir1(mySavePath +"/concentrationData");
+    qDebug()<<"saveMydata";
+    QMap<QDateTime, QPair<QList<float>, float>> lsd=md;
+    QString oriPath=mySavePath+"/originData";
+    QString concentrationDataPath=mySavePath +"/concentrationData";
+    QDir dir0(oriPath);
+    QDir dir1(concentrationDataPath);
     // 如果文件夹不存在，则创建它
     if (!dir0.exists())
     {
-        dir0.mkpath(mySavePath+"/originData");
+        dir0.mkpath(oriPath);
     }
     if (!dir1.exists())
     {
-        dir1.mkpath(mySavePath +"/concentrationData");
+        dir1.mkpath(concentrationDataPath);
     }
 
-    QString originFileName="originData"+saveTime.toString("yyyy_hh_mm_ss");
-     QString cctFileName="concentrationData"+saveTime.toString("yyyy_hh_mm_ss");
+    QString originFileName=oriPath+"/"+saveTime.toString("yyyy_hh_mm_ss")+".txt";
+    QString cctFileName=concentrationDataPath+"/"+saveTime.toString("yyyy_hh_mm_ss")+".txt";
 
     // 打开第一个文件（存储 QList<float>）
     QFile bufFile(originFileName);
     if (!bufFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
 
+         qDebug()<<"Failed to open file for writing:";
         return;
     }
     QTextStream bufStream(&bufFile);
@@ -73,7 +80,7 @@ void dataSaving::saveMydata()
     QTextStream concStream(&concFile);
 
     // 遍历 myDataMap
-    for (auto it = myDataMap.constBegin(); it != myDataMap.constEnd(); ++it) {
+    for (auto it = lsd.constBegin(); it != lsd.constEnd(); ++it) {
         QString timeStr = it.key().toString("yyyy-MM-dd HH:mm:ss");  // 格式化时间
 
         // 写入第一个文件：时间和 QList<float>

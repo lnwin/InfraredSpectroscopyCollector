@@ -5,7 +5,7 @@
 #include <QThread>
 #include <windows.h>
 #include <limits> // 用于 std::numeric_limits
-
+#include <QDebug>
 class dataProcessing:public QThread
 {
     Q_OBJECT

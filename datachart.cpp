@@ -77,9 +77,8 @@ void dataChart::receiveConcentration2(const PUSHORT myoriginBuff,const float Con
     QSharedPointer<QCPAxisTickerDateTime> dateTimeTicker(new QCPAxisTickerDateTime);
     dateTimeTicker->setDateTimeFormat("yyyy HH:mm:ss");
     myUI->chartView->xAxis->setTicker(dateTimeTicker);
-
     // 重新绘制图表
-    myUI->chartView->replot();
+
 
  //====================================================
 
@@ -107,6 +106,7 @@ void dataChart::receiveConcentration2(const PUSHORT myoriginBuff,const float Con
 
     // 重新绘制图表
     myUI->originView->replot();
+    myUI->chartView->replot();
 
 
 };

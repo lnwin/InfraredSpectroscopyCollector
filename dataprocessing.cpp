@@ -15,6 +15,8 @@ void dataProcessing::receiveBuff(const PUSHORT myBuffer)
 
     float ND=myM*AVE+myN;
 
+
+
     emit sendConcentration2Chart(myBuffer,ND);
 
 };

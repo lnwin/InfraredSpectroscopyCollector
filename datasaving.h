@@ -9,13 +9,14 @@
 #include <QMap>
 #include <QFile>
 #include <QTextStream>
+#include <QDebug>
 class dataSaving:public QThread
 {
     Q_OBJECT
 public:
     dataSaving();
-    QString mySavePath;
-    void saveMydata();
+    QString mySavePath="C:/Users/40582/Desktop/cloud";
+    void saveMydata(const QMap<QDateTime, QPair<QList<float>, float>>&);
     bool read2Save=true;
     QDateTime saveTime;
 
