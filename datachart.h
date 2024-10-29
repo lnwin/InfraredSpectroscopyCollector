@@ -4,6 +4,7 @@
 #include <QThread>
 #include <ui_mainwindow.h>
 #include <QVector>
+#include <usbcard.h>
 class dataChart: public QThread
 {
     Q_OBJECT
@@ -14,9 +15,11 @@ public:
     // 静态成员变量声明
     static QVector<double> xData;
     static QVector<double> yData;
+    USBcard *myUSB;
 public slots:
      void receiveConcentration2(const PUSHORT,const float ConCTr);
      void showDataAtMouse(QMouseEvent *event);
+
 };
 
 #endif // DATACHART_H

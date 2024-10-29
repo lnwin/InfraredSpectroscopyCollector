@@ -9,19 +9,17 @@ dataProcessing::dataProcessing()
 void dataProcessing::receiveBuff(const PUSHORT myBuffer)
 {
     float A1,A2,A3;
-    findExtrema(myBuffer,10000, A1,A2,A3);
+    findExtrema(myBuffer,1024, A1,A2,A3);
 
     float AVE=(A1+A2)/2-A3;
 
     float ND=myM*AVE+myN;
 
-
+    qDebug()<<"float ND== "<<ND;
 
     emit sendConcentration2Chart(myBuffer,ND);
 
 };
-
-
 
 void dataProcessing::findExtrema(const PUSHORT myBuffer, int dataSize, float &A1Index, float &A2Index, float &A3Index)
 {

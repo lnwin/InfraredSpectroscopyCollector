@@ -6,7 +6,8 @@
 #include <usb2070.h>
 #include <QMetaType>
 #include <QDebug>
-
+#include <QTime>
+#include <QCoreApplication>
 class USBcard: public QThread
 {
     Q_OBJECT
@@ -19,6 +20,7 @@ public:
     bool needRead=true;
     BOOL readUSB(PUSHORT pBuf, int bufSiz);
     bool checkNeed();
+    void Delay_MSec(unsigned int msec);
 signals:
 
     void sendMsg2Main(const QString&);

@@ -62,6 +62,8 @@ void MainWindow::receiveCardInfor(const CARD_INFO&myCI)
     QString deviceInfor;
 
     deviceInfor+=TS+ " current card version:"+ QString::number(myCI.CARD_VER);
+   // ui->textEdit->append(deviceInfor);
+    deviceInfor+=TS+ " current card AD_BIT:"+ QString::number(myCI.AD_BIT);
     ui->textEdit->append(deviceInfor);
 };
 void MainWindow::on_findDevice_clicked()

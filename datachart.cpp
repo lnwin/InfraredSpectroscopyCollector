@@ -8,6 +8,7 @@ QCPItemText *tracerText = nullptr;
 
 dataChart::dataChart(Ui::MainWindow *myui)
 {
+    myUSB=new USBcard ();
     myUI=myui;
 
     myUI->chartView->addGraph();
@@ -57,6 +58,9 @@ dataChart::dataChart(Ui::MainWindow *myui)
 
 void dataChart::receiveConcentration2(const PUSHORT myoriginBuff,const float ConCTr)
 {
+
+    float myRange=1024;
+
     // 获取当前时间的时间戳（单位为秒）
     double currentTime = QDateTime::currentDateTime().toSecsSinceEpoch();
 
@@ -85,8 +89,8 @@ void dataChart::receiveConcentration2(const PUSHORT myoriginBuff,const float Con
      myUI->originView->graph(0)->data()->clear();
 
     // 构建 x 轴和 y 轴的数据
-    QVector<double> xData(10000), yData(10000);
-    for (int i = 0; i < 10000; ++i) {
+    QVector<double> xData(myRange), yData(myRange);
+    for (int i = 0; i < myRange; ++i) {
         xData[i] = i;                 // x轴为数据索引
         yData[i] = myoriginBuff[i];   // y轴为 myoriginBuff 的值
     }
@@ -95,7 +99,7 @@ void dataChart::receiveConcentration2(const PUSHORT myoriginBuff,const float Con
     myUI->originView->graph(0)->setData(xData, yData);
 
     // 设置 x 轴的范围（从 0 到 dataSize - 1）
-    myUI->originView->xAxis->setRange(0, 9999);
+    myUI->originView->xAxis->setRange(0, myRange);
     myUI->originView->xAxis->setLabel("数据索引");
 
     // 设置 y 轴的范围（根据 myoriginBuff 的最小和最大值）
@@ -108,7 +112,7 @@ void dataChart::receiveConcentration2(const PUSHORT myoriginBuff,const float Con
     myUI->originView->replot();
     myUI->chartView->replot();
 
-
+    myUSB->Delay_MSec(10);
 };
 void dataChart::showDataAtMouse(QMouseEvent *event)
 {

@@ -17,26 +17,26 @@ QList<float> convertToQList(const PUSHORT myBUF, int dataSize)
 }
 void dataSaving::getData2Save(const PUSHORT myBUF,const float ConCTr)
 {
-    if(read2Save)
-    {
-        saveTime  = QDateTime::currentDateTime();
-        read2Save=false;
-    }
+    // if(read2Save)
+    // {
+    //     saveTime  = QDateTime::currentDateTime();
+    //     read2Save=false;
+    // }
 
-    QDateTime CCT  = QDateTime::currentDateTime();
+    // QDateTime CCT  = QDateTime::currentDateTime();
 
-    QList<float> floatList = convertToQList(myBUF, 10000);
-    QPair<QList<float>, float> newPair(floatList, ConCTr); // 创建新键值对
-    myDataMap.insert(CCT, newPair);
+    // QList<float> floatList = convertToQList(myBUF, 10000);
+    // QPair<QList<float>, float> newPair(floatList, ConCTr); // 创建新键值对
+    // myDataMap.insert(CCT, newPair);
 
-    qDebug()<<"getData2Save";
+    // qDebug()<<"getData2Save";
 
-    if(myDataMap.size()>=60)//1Hz  5分钟存储一次
-    {
-        saveMydata(myDataMap);
-        read2Save=true;
-        myDataMap.clear();
-    }
+    // if(myDataMap.size()>=60)//1Hz  5分钟存储一次
+    // {
+    //     saveMydata(myDataMap);
+    //     read2Save=true;
+    //     myDataMap.clear();
+    // }
 
 
 };
