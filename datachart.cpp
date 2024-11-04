@@ -83,7 +83,6 @@ void dataChart::receiveConcentration2(const PUSHORT myoriginBuff,const float Con
     myUI->chartView->xAxis->setTicker(dateTimeTicker);
     // 重新绘制图表
 
-
  //====================================================
 
      myUI->originView->graph(0)->data()->clear();

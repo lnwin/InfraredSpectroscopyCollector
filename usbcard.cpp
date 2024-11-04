@@ -29,14 +29,14 @@ void USBcard::ADinit()
 
 
 
-    myADParameter.ADFREQ=1;
-    myADParameter.TriggerMode   =// TRIG_MODE_CONTINUE;
-                                  TRIG_MODE_POST;
-    myADParameter.TriggerSource = //TRIG_SRC_EXT_RISING;
+    myADParameter.ADFREQ=10;
+    myADParameter.TriggerMode   =TRIG_MODE_CONTINUE;
+                                //  TRIG_MODE_POST;
+   // myADParameter.TriggerSource = //TRIG_SRC_EXT_RISING;
                                //TRIG_SRC_SOFT ;//软件触发
-                                 TRIG_SRC_EXT_FALLING  ; //外负沿触发
+                                // TRIG_SRC_EXT_FALLING  ; //外负沿触发
                                //TRIG_SRC_EXT_RISING;//  外正沿触发
-    myADParameter.TriggerDelay=100;
+  //  myADParameter.TriggerDelay=100;
     myADParameter.TriggerLength=1024;
     myADParameter.lADRange=0;//，0对应-5V~+5V量程，1对应-10V~10V量程。
    //  myADParameter.TriggerLevel=(LONG)(1*4095.0/10.0)+2048 ;//触发电平设置，采样12位DA，取值0～4095，0对应触发电平-5V，4095对应触发电平5V。
@@ -48,7 +48,7 @@ void USBcard::ADinit()
 
     if(!USB2070_InitAD(hDevice,&myADParameter))
     {
-        emit sendMsg2Main("init device fail !");
+         emit sendMsg2Main("init device fail !");
 
     }
     else
@@ -73,8 +73,6 @@ void USBcard::readAD()
     while(checkNeed())
     {
 
-
-
         if(!readUSB(inBuffer,samcnt))
         {
             if (!USB2070_GetBufOver(hDevice, &bBufOver))
@@ -87,15 +85,15 @@ void USBcard::readAD()
         else
         {
 
-            emit sendBuffer2P(inBuffer);
+             emit sendBuffer2P(inBuffer);
         }
-      //  Delay_MSec(500);
+        Delay_MSec(1000);
 
     }
 
     if(USB2070_StopAD(hDevice,0))
      qDebug()<<" read stoped";
-     delete[] inBuffer;
+    // delete[] inBuffer;
 
 
 };
